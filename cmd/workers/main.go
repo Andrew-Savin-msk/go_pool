@@ -28,16 +28,16 @@ func main() {
 
 	select {
 	case sign := <-stop:
-		cancel()
-
 		sh.GracefulStop()
-
 		fmt.Printf("stopping application with signal: %s\n", sign.String())
 	}
+
+	cancel()
 
 	fmt.Println("ended work")
 }
 
+// taskCreator generate tasks for handler
 func taskCreator(ctx context.Context, executor *printer.StringHandler) {
 	for {
 		time.Sleep(100 * time.Millisecond)
@@ -45,12 +45,13 @@ func taskCreator(ctx context.Context, executor *printer.StringHandler) {
 		case <-ctx.Done():
 			return
 		default:
-			executor.Handle(GenerateRandomString(10))
+			executor.Handle(generateRandomString(10))
 		}
 	}
 }
 
-func GenerateRandomString(n int) string {
+// generateRandomString generate random char sequences
+func generateRandomString(n int) string {
 	b := make([]byte, n)
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
