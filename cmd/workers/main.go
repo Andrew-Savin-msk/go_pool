@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	workerpool "github.com/Andrew-Savin-msk/go_pool/wp"
+	"github.com/Andrew-Savin-msk/go_pool/printer"
 )
 
 const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -17,7 +17,7 @@ const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
-	sh := workerpool.New(ctx, 10)
+	sh := printer.New(ctx, 10)
 
 	sh.Start()
 
@@ -38,7 +38,7 @@ func main() {
 	fmt.Println("ended work")
 }
 
-func taskCreator(ctx context.Context, executor *workerpool.StringHandler) {
+func taskCreator(ctx context.Context, executor *printer.StringHandler) {
 	for {
 		time.Sleep(100 * time.Millisecond)
 		select {
